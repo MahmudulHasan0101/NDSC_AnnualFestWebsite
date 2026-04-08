@@ -61,11 +61,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 /* ── SPA fallback ───────────────────────────────────────────────────────────── */
-app.get('/', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.all('/:splat', (_req, res) => {
+app.get('/{*path}', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -75,25 +71,10 @@ app.use(errorHandler);
 /* ── Start server ───────────────────────────────────────────────────────────── */
 const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
 
-const server = app.listen(PORT, HOST, () => {
+app.listen(PORT, HOST, () => {
   console.log(`\n🚀  NDSC Fest server running on http://${HOST}:${PORT}`);
   console.log(`    Environment : ${process.env.NODE_ENV || 'development'}`);
   console.log(`    Database    : ${process.env.DB_HOST || '(not configured)'}\n`);
-});
-
-server.on('error', (err) => {
-  console.error('[SERVER] Failed to start:', err.message);
-  process.exit(1);
-});
-
-process.on('uncaughtException', (err) => {
-  console.error('[FATAL] Uncaught exception:', err.message);
-  process.exit(1);
-});
-
-process.on('unhandledRejection', (reason) => {
-  console.error('[FATAL] Unhandled rejection:', reason);
-  process.exit(1);
 });
 
 module.exports = app;
