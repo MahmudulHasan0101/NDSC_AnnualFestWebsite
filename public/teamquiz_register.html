@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Quiz — Register · NDSC Fest 2025 &amp; 35th GKC</title>
+  <link rel="icon" type="image/png" href="./assets/images/ndsc_fest_logo.png">
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <style>
+    .seg-reg {
+      padding-top: calc(var(--nav-h) + 72px);
+      padding-bottom: 100px;
+      min-height: 100vh;
+    }
+    .seg-reg__eyebrow { margin-bottom: 14px; }
+    .seg-reg__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .seg-reg__desc {
+      font-size: .9rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+    .seg-reg__card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-l);
+      padding: 40px 48px;
+      max-width: 560px;
+    }
+    @media (max-width: 600px) {
+      .seg-reg__card { padding: 28px 24px; }
+    }
+    .seg-reg__card-title {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .enroll-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn[data-loading="true"] { opacity: .6; pointer-events: none; }
+    .status-banner {
+      display: none;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: var(--radius-m);
+      font-size: .85rem;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+    .status-banner--success {
+      background: rgba(52, 211, 153, .08);
+      border: 1px solid rgba(52, 211, 153, .3);
+      color: #6ee7b7;
+    }
+    .status-banner--error {
+      background: rgba(248, 113, 113, .08);
+      border: 1px solid rgba(248, 113, 113, .28);
+      color: #fca5a5;
+    }
+    .status-banner--info {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-strong);
+      color: var(--accent-bright);
+    }
+    .page-loading, .auth-error {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 40vh;
+      gap: 18px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .loading-spinner {
+      width: 28px; height: 28px;
+      border: 2px solid var(--border-default);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .user-greeting {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .user-greeting span { color: var(--accent-bright); }
+
+    /* ── Form fields ── */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 22px;
+    }
+    .form-group label {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .form-input {
+      background: var(--bg-raised);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-m);
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: .88rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--duration-s);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-input::placeholder { color: var(--text-muted); opacity: .5; }
+    .form-input:focus { border-color: var(--accent); }
+
+    /* ── Section divider ── */
+    .form-section {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+    .form-section__label {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* ── Member lookup feedback ── */
+    .member-status {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: .78rem;
+      line-height: 1.4;
+    }
+    .member-status.visible { display: flex; }
+    .member-status--found    { color: #6ee7b7; }
+    .member-status--notfound { color: #fca5a5; }
+    .member-status--diff-inst { color: #fbbf24; }
+    .member-status__dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .member-status--found     .member-status__dot { background: #6ee7b7; }
+    .member-status--notfound  .member-status__dot { background: #fca5a5; }
+    .member-status--diff-inst .member-status__dot { background: #fbbf24; }
+
+    /* ── Field error ── */
+    .field-error {
+      font-size: .75rem;
+      color: #fca5a5;
+      margin-top: 4px;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+  </style>
+</head>
+<body>
+
+  <canvas id="particleCanvas"></canvas>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a class="nav__logo-group" href="index.html" aria-label="NDSC Fest Home">
+        <div class="nav__logo-icon" aria-hidden="true">
+          <img src="./assets/images/logo_d_a.png" alt="NDSC Fest Logo" width="36" height="36">
+        </div>
+        <div class="nav__logo">
+          <span class="nav__logo-main">Notre Dame Annual Science Festival</span>
+          <span class="nav__logo-sub">2025 &amp; 35th GKC</span>
+        </div>
+      </a>
+      <div class="nav__spacer"></div>
+      <div class="nav__center">
+        <ul class="nav__links" role="list">
+          <li><a class="nav__link" href="index.html">Home</a></li>
+          <li><a class="nav__link" href="segments.html">Segments</a></li>
+          <li><a class="nav__link" href="about.html">About</a></li>
+          <li><a class="nav__link" href="contact.html">Contact</a></li>
+        </ul>
+        <a class="nav__cta" href="dashboard.html">Dashboard</a>
+      </div>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__drawer" id="navDrawer" role="dialog" aria-label="Mobile menu">
+    <a class="nav__link" href="index.html">Home</a>
+    <a class="nav__link" href="segments.html">Segments</a>
+    <a class="nav__link" href="about.html">About</a>
+    <a class="nav__link" href="contact.html">Contact</a>
+    <a class="nav__drawer-cta" href="dashboard.html">Dashboard</a>
+  </div>
+
+  <main class="page-enter">
+    <section class="seg-reg">
+      <div class="container">
+
+        <div id="pageLoading" class="page-loading">
+          <div class="loading-spinner"></div>
+        </div>
+
+        <div id="authError" class="auth-error" style="display:none;">
+          <p>You must be logged in to register.</p>
+          <a href="register.html" class="btn btn--primary">Log In / Register</a>
+        </div>
+
+        <div id="pageContent" style="display:none;">
+          <p class="eyebrow seg-reg__eyebrow">Segment Registration</p>
+          <h1 class="seg-reg__title">Team Quiz</h1>
+          <p class="seg-reg__desc">Collaborate with your teammates to answer rapid-fire questions across science, technology, and culture. All team members must be from the same institution.</p>
+
+          <p class="user-greeting">Registering as: <span id="userGreeting">—</span></p>
+
+          <div class="seg-reg__card" data-reveal="up">
+            <p class="seg-reg__card-title">Team details</p>
+
+            <!-- ── Team Name ─────────────────────────────────── -->
+            <div class="form-group">
+              <label for="teamName">Team name</label>
+              <input
+                class="form-input"
+                type="text"
+                id="teamName"
+                placeholder="e.g. The Quantum Scribes"
+                autocomplete="off"
+              />
+              <span class="field-error" id="teamNameError">Team name is required.</span>
+            </div>
+
+            <!-- ── Members ───────────────────────────────────── -->
+            <div class="form-section">
+              <p class="form-section__label">Team members <span style="font-size:.6rem;opacity:.6;text-transform:none;letter-spacing:0;">(2 required)</span></p>
+
+              <!-- Member 1 -->
+              <div class="form-group">
+                <label for="member1Email">Member 1 — registered email</label>
+                <input class="form-input" type="email" id="member1Email" placeholder="member1@example.com" autocomplete="off" />
+                <div class="member-status" id="member1Status">
+                  <span class="member-status__dot"></span>
+                  <span id="member1StatusText"></span>
+                </div>
+                <span class="field-error" id="member1Error"></span>
+              </div>
+
+              <!-- Member 2 -->
+              <div class="form-group">
+                <label for="member2Email">Member 2 — registered email</label>
+                <input class="form-input" type="email" id="member2Email" placeholder="member2@example.com" autocomplete="off" />
+                <div class="member-status" id="member2Status">
+                  <span class="member-status__dot"></span>
+                  <span id="member2StatusText"></span>
+                </div>
+                <span class="field-error" id="member2Error"></span>
+              </div>
+              <p style="font-size:.78rem;color:var(--text-muted);line-height:1.6;margin-top:16px;">
+                All 2 members must already have an account and be from the same institution as you. They will be automatically enrolled once you submit.
+              </p>
+            </div>
+
+            <!-- ── Submit ─────────────────────────────────────── -->
+            <div class="enroll-row">
+              <button class="btn btn--primary" id="enrollBtn">Enroll Team</button>
+              <a class="btn btn--ghost btn--sm" href="dashboard.html">Back to Dashboard</a>
+            </div>
+
+            <div id="statusBanner" class="status-banner"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">NDSC <span>Science Fest</span> 2025 &amp; <span>35th GKC</span></div>
+      <div class="footer__meta">Notre Dame Science Club, Dhaka &nbsp;&mdash;&nbsp; All rights reserved &copy; 2026</div>
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/segmentRegister.js"></script>
+  <script>
+    // ── Per-member verified state ────────────────────────────────────────────
+    const memberVerified = [false, false];
+    let captainInstitution = '';
+
+    // ── Live lookup helper ───────────────────────────────────────────────────
+    function setupMemberLookup(index) {
+      const n         = index + 1;
+      const input     = document.getElementById(`member${n}Email`);
+      const statusEl  = document.getElementById(`member${n}Status`);
+      const statusTxt = document.getElementById(`member${n}StatusText`);
+      const errorEl   = document.getElementById(`member${n}Error`);
+
+      input.addEventListener('blur', async () => {
+        const val = input.value.trim();
+
+        // Reset
+        statusEl.className = 'member-status';
+        errorEl.textContent = '';
+        errorEl.classList.remove('visible');
+        memberVerified[index] = false;
+
+        if (!val) return;
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.classList.add('visible');
+          return;
+        }
+
+        try {
+          const res  = await fetch(`/api/auth/lookup-email?email=${encodeURIComponent(val)}`, { credentials: 'include' });
+          const data = await res.json();
+
+          if (!res.ok || !data?.data?.exists) {
+            statusEl.className = 'member-status member-status--notfound visible';
+            statusTxt.textContent = 'No account found with this email address.';
+            return;
+          }
+
+          const memberInstitution = data.data.institution || '';
+          if (captainInstitution && memberInstitution.trim().toLowerCase() !== captainInstitution.trim().toLowerCase()) {
+            statusEl.className = 'member-status member-status--diff-inst visible';
+            statusTxt.textContent = `⚠ ${data.data.full_name} is from a different institution (${memberInstitution}).`;
+            return;
+          }
+
+          statusEl.className = 'member-status member-status--found visible';
+          statusTxt.textContent = `✓ Found: ${data.data.full_name}`;
+          memberVerified[index] = true;
+
+        } catch {
+          // Network error — let server do final validation
+          memberVerified[index] = true;
+        }
+      });
+    }
+
+    setupMemberLookup(0);
+    setupMemberLookup(1);
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+        // ── Init ─────────────────────────────────────────────────────────────────
+    initSegmentRegister({
+      segment:   'teamquiz',
+      enrollBtn: '#enrollBtn',
+
+      onReady(user) {
+        captainInstitution = user.institution || '';
+      },
+
+      getExtra() {
+        let valid = true;
+
+        // Team name
+        const teamName = document.getElementById('teamName').value.trim();
+        const teamNameErr = document.getElementById('teamNameError');
+        if (!teamName) {
+          teamNameErr.classList.add('visible');
+          valid = false;
+        } else {
+          teamNameErr.classList.remove('visible');
+        }
+
+        // Member emails
+        const memberEmails = [];
+        for (let i = 1; i <= 2; i++) {
+          const input    = document.getElementById(`member${i}Email`);
+          const errorEl  = document.getElementById(`member${i}Error`);
+          const val      = input.value.trim();
+
+          errorEl.classList.remove('visible');
+          errorEl.textContent = '';
+
+          if (!val) {
+            errorEl.textContent = 'This field is required.';
+            errorEl.classList.add('visible');
+            valid = false;
+          } else if (!memberVerified[i - 1]) {
+            errorEl.textContent = 'Member email could not be verified.';
+            errorEl.classList.add('visible');
+            valid = false;
+          } else {
+            memberEmails.push(val);
+          }
+        }
+
+        // Duplicate check on the client side
+        if (memberEmails.length === 2) {
+          const unique = new Set(memberEmails.map(e => e.toLowerCase()));
+          if (unique.size !== 2) {
+            // Mark duplicates
+            for (let i = 1; i <= 2; i++) {
+              const val = document.getElementById(`member${i}Email`).value.trim().toLowerCase();
+              const count = memberEmails.filter(e => e.toLowerCase() === val).length;
+              if (count > 1) {
+                const errorEl = document.getElementById(`member${i}Error`);
+                errorEl.textContent = 'Duplicate member email.';
+                errorEl.classList.add('visible');
+              }
+            }
+            valid = false;
+          }
+        }
+
+        if (!valid) return null;
+        return { teamName, memberEmails };
+      }
+    });
+  </script>
+</body>
+</html>

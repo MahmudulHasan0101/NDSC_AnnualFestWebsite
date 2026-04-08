@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>System Status – NDSC ASF 2025</title>
+
+  <!-- SEO -->
+  <meta name="author" content="NDSC Science Club">
+  <meta name="description" content="System status and monitoring dashboard for Notre Dame Annual Science Festival 2025.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://asf25.ndscbd.net/assets/images/ndsc_fest_logo.png">
+
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/developers.css" />
+
+  <style>
+    .status-page {
+      padding: 80px 20px 40px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+
+    .status-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .status-header h1 {
+      font-size: 2.5rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .status-header p {
+      color: #a0a0a0;
+      font-size: 1rem;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .status-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .status-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .status-card__header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .status-card__icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .status-card__icon.database { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .status-card__icon.email { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .status-card__icon.environment { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+    .status-card__title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-left: auto;
+    }
+
+    .status-indicator::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status-indicator.operational {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-indicator.operational::before { background: #10b981; }
+
+    .status-indicator.error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .status-indicator.error::before { background: #ef4444; }
+
+    .status-indicator.misconfigured {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .status-indicator.misconfigured::before { background: #f59e0b; }
+
+    .status-card__content {
+      color: #b0b0b0;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .status-card__content dt {
+      color: #fff;
+      font-weight: 500;
+      margin-top: 12px;
+    }
+
+    .status-card__content dd {
+      margin-left: 0;
+      color: #a0a0a0;
+    }
+
+    .status-card__content pre {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      color: #a0a0a0;
+      margin-top: 10px;
+    }
+
+    .refresh-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .refresh-btn:hover {
+      transform: scale(1.1) rotate(180deg);
+      box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+    }
+
+    .refresh-btn.refreshing {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .timestamp {
+      text-align: center;
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 30px;
+    }
+
+    .credit-info {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .credit-info__label {
+      font-size: 0.85rem;
+      color: #10b981;
+      font-weight: 500;
+    }
+
+    .credit-info__value {
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .sender-list {
+      margin-top: 12px;
+    }
+
+    .sender-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .sender-item__status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .sender-item__email {
+      color: #a0a0a0;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo-group" href="index.html">
+      <div class="nav__logo-icon">
+        <img src="./assets/images/logo_d_a.png" width="36">
+      </div>
+      <div class="nav__logo">
+        <span class="nav__logo-main">Notre Dame Annual Science Festival</span>
+        <span class="nav__logo-sub">2025 & 35th GKC</span>
+      </div>
+    </a>
+
+    <div class="nav__spacer"></div>
+
+    <div class="nav__center">
+      <ul class="nav__links">
+        <li><a class="nav__link" href="index.html">Home</a></li>
+        <li><a class="nav__link" href="segments.html">Segments</a></li>
+        <li><a class="nav__link" href="about.html">About</a></li>
+        <li><a class="nav__link" href="contact.html">Contact</a></li>
+        <li><a class="nav__link" href="developers.html">Developers</a></li>
+      </ul>
+
+      <a class="nav__cta" href="register.html">Register</a>
+    </div>
+  </div>
+</nav>
+
+<main class="status-page">
+  <div class="status-header">
+    <h1>System Status</h1>
+    <p>Real-time monitoring of technical services</p>
+  </div>
+
+  <div class="status-grid">
+    <!-- Database Status -->
+    <div class="status-card">
+      <div class="status-card__header">
+        <div class="status-card__icon database">🗄️</div>
+        <span class="status-card__title">Database</span>
+        <span class="status-indicator" id="db-status">Checking...</span>
+      </div>
+      <dl class="status-card__content" id="db-content">
+        <dt>Host</dt>
+        <dd id="db-host">-</dd>
+        <dt>Latency</dt>
+        <dd id="db-latency">-</dd>
+        <dt>Message</dt>
+        <dd id="db-message">-</dd>
+      </dl>
+    </div>
+
+    <!-- Email Status -->
+    <div class="status-card">
+      <div class="status-card__header">
+        <div class="status-card__icon email">📧</div>
+        <span class="status-card__title">Email Service</span>
+        <span class="status-indicator" id="email-status">Checking...</span>
+      </div>
+      <dl class="status-card__content" id="email-content">
+        <dt>Provider</dt>
+        <dd id="email-provider">-</dd>
+        <dt>From Address</dt>
+        <dd id="email-from">-</dd>
+        <dt>Message</dt>
+        <dd id="email-message">-</dd>
+        <div id="email-credits"></div>
+        <div id="email-senders"></div>
+      </dl>
+    </div>
+
+    <!-- Environment Status -->
+    <div class="status-card">
+      <div class="status-card__header">
+        <div class="status-card__icon environment">⚙️</div>
+        <span class="status-card__title">Environment</span>
+        <span class="status-indicator" id="env-status">-</span>
+      </div>
+      <dl class="status-card__content" id="env-content">
+        <dt>Environment</dt>
+        <dd id="env-node">-</dd>
+        <dt>Email Provider</dt>
+        <dd id="env-email">-</dd>
+        <dt>Server Time</dt>
+        <dd id="env-time">-</dd>
+      </dl>
+    </div>
+  </div>
+
+  <p class="timestamp" id="timestamp">Last updated: -</p>
+</main>
+
+<button class="refresh-btn" id="refreshBtn" title="Refresh status" aria-label="Refresh status">
+  ↻
+</button>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+<script>
+  const API_STATUS = '/api/status';
+
+  function setStatus(elementId, status) {
+    const el = document.getElementById(elementId);
+    el.className = `status-indicator ${status}`;
+    el.textContent = status === 'operational' ? 'Operational' :
+                     status === 'error' ? 'Error' :
+                     status === 'misconfigured' ? 'Not Configured' : status;
+  }
+
+  function updateDatabaseStatus(data) {
+    const db = data.services.database;
+    setStatus('db-status', db.status);
+    document.getElementById('db-host').textContent = data.host || '-';
+    document.getElementById('db-latency').textContent = data.latency_ms ? `${data.latency_ms}ms` : '-';
+    document.getElementById('db-message').textContent = db.message || '-';
+  }
+
+  function updateEmailStatus(data) {
+    const email = data.services.email;
+    setStatus('email-status', email.status);
+    document.getElementById('email-provider').textContent = email.provider || '-';
+    document.getElementById('email-from').textContent = email.from || '-';
+    document.getElementById('email-message').textContent = email.message || '-';
+
+    // Credits info (Brevo)
+    const creditsContainer = document.getElementById('email-credits');
+    if (email.credits) {
+      const emailQuota = email.credits.email ? email.credits.email : 0;
+      creditsContainer.innerHTML = `
+        <dt>Credits Remaining</dt>
+        <dd>
+          <div class="credit-info">
+            <div class="credit-info__label">Email Credits</div>
+            <div class="credit-info__value">${emailQuota.toLocaleString()}</div>
+          </div>
+        </dd>
+      `;
+    }
+
+    // Senders list (Brevo)
+    const sendersContainer = document.getElementById('email-senders');
+    if (email.senders && email.senders.length > 0) {
+      const sendersHtml = email.senders.map(s => `
+        <div class="sender-item">
+          <div class="sender-item__status"></div>
+          <span class="sender-item__email">${s.email || s.name || 'Unknown'}</span>
+        </div>
+      `).join('');
+      sendersContainer.innerHTML = `<dt>Senders</dt><dd>${sendersHtml}</dd>`;
+    }
+  }
+
+  function updateEnvironmentStatus(data) {
+    const env = data.environment;
+    document.getElementById('env-node').textContent = env.node_env || '-';
+    document.getElementById('env-email').textContent = env.use_gmail ? 'Gmail (SMTP)' : 'Brevo (API)';
+    document.getElementById('env-time').textContent = new Date().toLocaleString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  }
+
+  async function fetchStatus() {
+    const loading = document.getElementById('loadingOverlay');
+    const refreshBtn = document.getElementById('refreshBtn');
+
+    loading.classList.add('active');
+    refreshBtn.classList.add('refreshing');
+
+    try {
+      const res = await fetch(API_STATUS);
+      const data = await res.json();
+
+      updateDatabaseStatus(data.services.database);
+      updateEmailStatus(data.services.email);
+      updateEnvironmentStatus(data);
+
+      document.getElementById('timestamp').textContent =
+        `Last updated: ${new Date().toLocaleString('en-GB')}`;
+    } catch (err) {
+      console.error('Failed to fetch status:', err);
+      setStatus('db-status', 'error');
+      setStatus('email-status', 'error');
+      document.getElementById('db-message').textContent = err.message;
+      document.getElementById('email-message').textContent = err.message;
+    } finally {
+      loading.classList.remove('active');
+      refreshBtn.classList.remove('refreshing');
+    }
+  }
+
+  // Initial fetch
+  fetchStatus();
+
+  // Auto-refresh every 30 seconds
+  setInterval(fetchStatus, 30000);
+
+  // Manual refresh
+  document.getElementById('refreshBtn').addEventListener('click', fetchStatus);
+
+  // Particle background
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.size = Math.random() * 2 + 1;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+    draw() {
+      ctx.fillStyle = 'rgba(102, 126, 234, 0.5)';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 50; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html>

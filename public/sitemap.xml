@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://asf25.ndscbd.net/index.html</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://asf25.ndscbd.net/about.html</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://asf25.ndscbd.net/events.html</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://asf25.ndscbd.net/segments.html</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://asf25.ndscbd.net/register.html</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.90</priority>
+  </url>
+
+  <url><loc>https://asf25.ndscbd.net/webdesign_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/videography_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/theoramvault_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/teamquiz_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/soloquiz_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/scinimequiz_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/scifiwriting_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/scienceolympiad_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/rubikscube_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/robosoccer_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/publicquiz_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/projectexpo_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/memeology_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/linefollower_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/extempore_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+  <url><loc>https://asf25.ndscbd.net/digitalposter_register.html</loc><lastmod>2026-03-17</lastmod><priority>0.70</priority></url>
+
+</urlset>

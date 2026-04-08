@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AIUB presents Notre Dame Annual Science Festival 2025 & 35th GKC</title>
+
+  <!-- SEO -->
+  <meta name="author" content="Mahmudul Hasan, Md. Mahasin Al Muhi, Foysal Mahmud">
+  <meta name="description" content="Official website of the Notre Dame Annual Science Festival 2025 & 35th GKC organized by Notre Dame Science Club. Explore events, competitions, and registrations.">
+  <meta name="keywords" content="Notre Dame Science Festival, ASF 2025, 35th GKC, Notre Dame College Dhaka, Science Festival Bangladesh, Mahmudul Hasan, Md. Mahasin Al Muhi, Foysal Mahmud">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://asf25.ndscbd.net/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://asf25.ndscbd.net/assets/images/ndsc_fest_logo.png">
+
+  <!-- Open Graph (Facebook, Discord, etc.) -->
+  <meta property="og:title" content="Notre Dame Annual Science Festival 2025 & 35th GKC">
+  <meta property="og:description" content="Join the Notre Dame Annual Science Festival 2025 & 35th GKC. Explore exciting science events and competitions.">
+  <meta property="og:image" content="https://asf25.ndscbd.net/assets/Elements/fest_title.png">
+  <meta property="og:url" content="https://asf25.ndscbd.net/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Notre Dame Annual Science Festival 2025 & 35th GKC">
+  <meta name="twitter:description" content="Official website of Notre Dame Annual Science Festival 2025.">
+  <meta name="twitter:image" content="https://asf25.ndscbd.net/assets/Elements/fest_title.png">
+
+  <!-- Google structured data for logo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Notre Dame Science Club",
+    "url": "https://asf25.ndscbd.net",
+    "logo": "https://asf25.ndscbd.net/assets/images/logo_d_a.png"
+  }
+  </script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+
+<body>
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+
+      <!-- Logo group -->
+      <a class="nav__logo-group" href="index.html" aria-label="NDSC Fest Home">
+        <div class="nav__logo-icon" aria-hidden="true">
+          <img src="./assets/images/logo_d_a.png" alt="NDSC Fest Logo" width="36" height="36">
+        </div>
+        <div class="nav__logo">
+          <span class="nav__logo-main">Notre Dame Annual Science Festival</span>
+          <span class="nav__logo-sub">2025 & 35th GKC</span>
+        </div>
+      </a>
+
+      <div class="nav__divider" aria-hidden="true"><span class="nav__divider__line"></span></div>
+
+      <div class="nav__spacer"></div>
+
+      <!-- Center pill: navigation links -->
+      <div class="nav__center">
+        <ul class="nav__links" role="list">
+          <li><a class="nav__link" href="index.html"    data-page="index">Home</a></li>
+          <li><a class="nav__link" href="segments.html" data-page="segments">Segments</a></li>
+          <!-- <li><a class="nav__link" href="events.html"   data-page="events">Events</a></li> -->
+          <li><a class="nav__link" href="about.html"    data-page="about">About</a></li>
+          <li><a class="nav__link" href="contact.html"  data-page="contact">Contact</a></li>
+          <li><a class="nav__link" href="developers.html" data-page="developers">Developers</a></li>
+        </ul>
+      
+        <a class="nav__cta" href="register.html">Register</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button class="nav__hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav__drawer" id="navDrawer" role="dialog" aria-label="Mobile menu">
+    <a class="nav__link" href="index.html"    data-page="index">Home</a>
+    <a class="nav__link" href="segments.html" data-page="segments">Segments</a>
+    <!-- <a class="nav__link" href="events.html"   data-page="events">Events</a> -->
+    <a class="nav__link" href="about.html"    data-page="about">About</a>
+    <a class="nav__link" href="contact.html"  data-page="contact">Contact</a>
+    <a class="nav__link" href="developers.html"    data-page="developers">Developers</a>
+    <a class="nav__drawer-cta" href="register.html">Register</a>
+  </div>
+  <!-- ── MAIN ─────────────────────────────────────────────────── -->
+  <main>
+
+    <!-- ── 1. POSTER HERO — full width, top of page ──────────── -->
+    <div class="poster-hero" style="margin-top: var(--nav-h);" aria-label="Event poster banner">
+      <!-- Replace inner div with <img> once you have the poster: -->
+           <!-- <img class="poster-hero__img" src="./assets/Elements/hero.png" alt="NDSC Annual Fest 2026 Poster">  -->
+      <!-- <div class="poster-hero__placeholder">
+        <div class="poster-hero__badge">
+          <span class="poster-hero__badge-dot"></span>
+          Notre Dame Science Club
+        </div>
+        <h1 class="poster-hero__event-name">
+          Annual Fest <em>2026</em>
+        </h1>
+        <p class="poster-hero__date">
+          <span>June 14, 2026</span>
+          &nbsp;&mdash;&nbsp;
+          Notre Dame College, Dhaka
+        </p>
+      </div> -->
+
+      <svg class="event-title-svg" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Clip circles at origin; the outer <g> does the translation -->
+                    <clipPath id="gearClipTL">
+                        <circle cx="0" cy="0" r="30"/>
+                    </clipPath>
+                    <clipPath id="gearClipBR">
+                        <circle cx="0" cy="0" r="19"/>
+                    </clipPath>
+                </defs>
+
+                <!-- Main title image -->
+                <image class="landing-image"
+                    href="./assets/Elements/fest_title.png"
+                    x="0"
+                    y="0"
+                    width="900"
+                    height="400"
+                    preserveAspectRatio="xMidYMid slice"
+                />
+
+                <!-- Top-left rotating gear: outer g translates to corner, inner g rotates around 0,0 -->
+                <g transform="translate(347, 145)" clip-path="url(#gearClipTL)">
+                    <g>
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from="0"
+                            to="360"
+                            dur="20s"
+                            repeatCount="indefinite"/>
+                        <image href="./assets/Elements/logo.png"
+                            x="-30" y="-30"
+                            width="60" height="60"
+                            preserveAspectRatio="xMidYMid meet"/>
+                    </g>
+                </g>
+
+                <!-- Bottom-right rotating gear: counter-clockwise -->
+                <g transform="translate(565, 235)" clip-path="url(#gearClipBR)">
+                    <g>
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from="0"
+                            to="-360"
+                            dur="16s"
+                            repeatCount="indefinite"/>
+                        <image href="./assets/Elements/logo.png"
+                            x="-19" y="-19"
+                            width="38" height="38"
+                            preserveAspectRatio="xMidYMid meet"/>
+                    </g>
+                </g>
+            </svg>
+      <div class="poster-hero__fade" aria-hidden="true"></div>
+    </div>
+
+    <!-- ── 2. TITLE + WELCOME ────────────────────────────────── -->
+    <section class="title-section">
+
+      <div class="container">
+        <div class="title-inner">
+
+          <div class="title-left">
+            <div data-reveal="up">
+              <span class="eyebrow">Welcome</span>
+            </div>
+            <h2 class="hero-title" data-reveal="up" data-delay="1">
+              Annual<br>
+              <span class="accent-word">Science</span><br>
+              Festival
+            </h2>
+            <p class="hero-subtitle" data-reveal="up" data-delay="2">2025 &amp; 35th GKC</p>
+
+            <div class="hero-meta" data-reveal="up" data-delay="3">
+              <div class="hero-meta-item">
+                <span class="hero-meta-label">Date</span>
+                <span class="hero-meta-value">16th, 17th &amp; 18th April, 2026</span>
+              </div>
+              <div class="hero-meta-item">
+                <span class="hero-meta-label">Venue</span>
+                <span class="hero-meta-value">Notre Dame College, Dhaka</span>
+              </div>
+              <div class="hero-meta-item">
+                <span class="hero-meta-label">Format</span>
+                <span class="hero-meta-value">In-Person</span>
+              </div>
+              <div class="hero-meta-item">
+                <span class="hero-meta-label">Segments</span>
+                <span class="hero-meta-value">9 Segments</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="title-right">
+            <p class="welcome-intro" data-reveal="fade" data-delay="1">
+              End of Anticipation! Brace yourself to witness the world of intellect, innovation, and scientific excellence. Proudly presenting the largest, distinguished and most widely acclaimed event of the year — <strong>Notre Dame Annual Science Festival 2025 &amp; 35th GKC</strong>, organized by the trailblazing Notre Dame Science Club.
+            </p>
+            <p class="welcome-intro" data-reveal="fade" data-delay="2">
+              This groundbreaking event goes way beyond just being a competition — it's a place where thoughts come to life, curiosities get pointed in the right direction, and a love for science gets the space it needs to flourish. Come learn, create, and leave your own stamp on a history of clever, imaginative thinkers. <em>#Unleash_Unravel_Unveil</em>
+            </p>
+            <div class="cta-row" data-reveal="up" data-delay="3">
+              <a class="btn btn--primary" href="register.html">
+                Register Now
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="btn btn--ghost" href="segments.html">View Segments</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 3. COUNTDOWN ──────────────────────────────────────── -->
+    <section class="countdown-section">
+      <div class="container">
+        <div class="countdown" data-reveal="up">
+          <div class="countdown__header">
+            <span class="countdown__title">Registration Deadline</span>
+            <span class="countdown__deadline">Closes: <strong>April 8, 2026 — 11:59 PM</strong></span>
+          </div>
+          <div class="countdown__units">
+            <div class="countdown__unit" data-reveal="scale" data-delay="1">
+              <span class="countdown__num" id="cd-days">--</span>
+              <span class="countdown__name">Days</span>
+            </div>
+            <span class="countdown__sep" aria-hidden="true">:</span>
+            <div class="countdown__unit" data-reveal="scale" data-delay="2">
+              <span class="countdown__num" id="cd-hours">--</span>
+              <span class="countdown__name">Hours</span>
+            </div>
+            <span class="countdown__sep" aria-hidden="true">:</span>
+            <div class="countdown__unit" data-reveal="scale" data-delay="3">
+              <span class="countdown__num" id="cd-mins">--</span>
+              <span class="countdown__name">Mins</span>
+            </div>
+            <span class="countdown__sep" aria-hidden="true">:</span>
+            <div class="countdown__unit" data-reveal="scale" data-delay="4">
+              <span class="countdown__num" id="cd-secs">--</span>
+              <span class="countdown__name">Secs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ── 4. VIDEO TEASER ───────────────────────────────────── -->
+        <section class="video-section" aria-label="Event teaser video">
+        <div class="container">
+            <div class="video-section__header" data-reveal="up">
+                <span class="eyebrow">Event Teaser</span>
+                <p class="video-section__title">Get a Glimpse</p>
+            </div>
+
+            <div class="video-wrapper" data-reveal="scale" data-delay="1">
+                <div class="video-glow" aria-hidden="true"></div>
+                                <div class="video-frame">
+                    <div class="video-frame__inner" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; display: block; width: 100%;">
+                        <iframe 
+                            src="https://drive.google.com/file/d/1Fs7jM9cmAkXVV3XmVq0zras3BUNn4k80/preview" 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                            allow="autoplay" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <span class="video-caption">NDSC Annual Fest 2026 – Official Teaser</span>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+  </main>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+ 
+  <p style="opacity: 0.5; margin-top: 20px; font-family: courier; font-size: 14px; text-align: center;"><i>Developed by</i></p>
+  
+  <p style="opacity: 0.8; font-family: courier; font-size: 16px; text-align: center;"><a href="https://www.facebook.com/mahmudulhasan.apk">Mahmudul Hasan [Lead]</a></p>
+  
+  <p style="font-family: courier; opacity: 0.8; font-size: 16px; text-align: center;"><a href="https://www.facebook.com/mdmahasinalmuhi">Md. Mahasin Al Muhi</a> & <a href="https://foysal1627.github.io/">Foysal Mahmud</a></p>
+  
+  
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">NDSC <span>Science Fest</span> 2025 & <span>35th GKC</span></div>
+      <div class="footer__meta">
+        Notre Dame Science Club, Dhaka<br>
+        All rights reserved &copy; 2026
+      </div>
+      </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

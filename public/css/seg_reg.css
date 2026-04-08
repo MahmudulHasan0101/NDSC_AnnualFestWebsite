@@ -1,0 +1,187 @@
+/* =================================================================
+   SEGMENT REGISTRATION PAGES — seg-reg styles
+   Add to dashboard.css (modal additions) or a new seg-reg.css
+   ================================================================= */
+
+/* ── Page layout ─────────────────────────────────────────────── */
+.seg-reg__header {
+  max-width: 640px;
+  margin: 48px auto 32px;
+  text-align: center;
+}
+
+.seg-reg__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: .04em;
+  margin-bottom: 20px;
+  transition: color var(--duration-s);
+}
+.seg-reg__back:hover { color: var(--accent); }
+
+.seg-reg__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.seg-reg__subtitle {
+  font-size: .9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Status messages ─────────────────────────────────────────── */
+.seg-reg__status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto 24px;
+  padding: 14px 20px;
+  border-radius: var(--radius-m);
+  font-size: .9rem;
+}
+
+.seg-reg__status--success {
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  color: #86efac;
+}
+
+.seg-reg__status--error {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  color: #fca5a5;
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+.seg-reg__card {
+  max-width: 480px;
+  margin: 0 auto 64px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-l);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Form field ──────────────────────────────────────────────── */
+.seg-reg__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.seg-reg__label {
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.seg-reg__label .req { color: var(--accent); }
+
+.seg-reg__select {
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-m);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: .9rem;
+  padding: 10px 14px;
+  transition: border-color var(--duration-s);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e5d99' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.seg-reg__select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Disclaimer ──────────────────────────────────────────────── */
+.seg-reg__disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: .8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding: 12px 14px;
+  background: rgba(157, 92, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-s);
+}
+.seg-reg__disclaimer svg { flex-shrink: 0; margin-top: 1px; }
+
+.seg-reg__submit {
+  width: 100%;
+  padding: 13px;
+  font-size: .92rem;
+  letter-spacing: .03em;
+}
+
+
+/* =================================================================
+   DASHBOARD MODAL — link/redirect style overrides
+   ================================================================= */
+
+/* Segment row that redirects instead of having a checkbox */
+.modal-event--link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: default;
+}
+
+.modal-event--link .modal-event__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+/* Small badge tags */
+.modal-event__badge {
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--accent-glow);
+  color: var(--accent-bright);
+  border: 1px solid rgba(157, 92, 255, 0.2);
+  white-space: nowrap;
+}
+
+.modal-event__badge--enrolled {
+  background: rgba(74, 222, 128, 0.08);
+  color: #86efac;
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+/* Already-enrolled row: muted appearance */
+.modal-event--enrolled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.modal-event__action {
+  flex-shrink: 0;
+  text-decoration: none;
+}

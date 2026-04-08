@@ -1,0 +1,181 @@
+/* GRID */
+.dev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  margin-top: 50px;
+}
+
+/* CARD BASE */
+.dev-card {
+  position: relative;
+  border-radius: var(--radius-l);
+  padding: 2px;
+  background: linear-gradient(120deg, #9d5cff, #6366f1, #9d5cff);
+  background-size: 300% 300%;
+  animation: borderFlow 6s linear infinite;
+
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* INNER CARD */
+.dev-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg-surface);
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* CONTENT WRAP */
+.dev-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* BORDER ANIMATION */
+@keyframes borderFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* IMAGE */
+.dev-img {
+  height: 320px;
+  background: linear-gradient(
+    135deg,
+    rgba(157,92,255,0.2),
+    rgba(99,102,241,0.2)
+  );
+  transition: transform 0.4s ease;
+  overflow: hidden;
+  contain: layout style;
+}
+
+.dev-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* IMAGE ZOOM - desktop only */
+@media (hover: hover) {
+  .dev-card:hover .dev-img {
+    transform: scale(1.08);
+  }
+}
+
+/* CONTENT */
+.dev-content {
+  padding: 20px;
+}
+
+.dev-content h2 {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.role {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin: 10px 0;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* SOCIALS */
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.socials a,
+.socials p {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.socials a:hover {
+  color: #ffffff;
+}
+
+/* SOCIAL LINKS */
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.social-link img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+}
+
+.social-link:hover {
+  color: #ffffff;
+}
+
+.social-link:hover img {
+  filter: brightness(1);
+}
+
+/* RIPPLE */
+.ripple {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(157,92,255,0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: rippleAnim 0.6s ease-out;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes rippleAnim {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(15);
+  }
+}
+
+/* MOBILE FIXES */
+@media (max-width: 768px) {
+  .dev-grid {
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .dev-img {
+    height: 280px;
+  }
+
+  /* Disable hover animations on touch devices */
+  .dev-card {
+    cursor: default;
+  }
+}

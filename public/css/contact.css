@@ -1,0 +1,147 @@
+/* =================================================================
+   CONTACT PAGE — extra styles
+   Minimal additions only; all tokens from common.css
+   ================================================================= */
+
+/* ── Two-person contact row ────────────────────────────────────── */
+.contact-persons {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.contact-person {
+  flex: 1;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* vertical divider between the two people */
+.cp-divider {
+  width: 1px;
+  background: var(--border-default);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.cp-role {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.cp-name {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.cp-phone {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: .02em;
+  transition: color var(--duration-s);
+}
+
+.cp-phone:hover { color: var(--accent-bright); }
+
+.cp-email {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: var(--text-muted);
+  letter-spacing: .04em;
+  transition: color var(--duration-s);
+}
+
+.cp-email:hover { color: var(--accent); }
+
+/* ── Other contact meta row ────────────────────────────────────── */
+.contact-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+}
+
+.cm-item {
+  flex: 1;
+  min-width: 200px;
+  padding: 22px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* thin vertical separators between meta items */
+.cm-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.cm-label {
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.cm-value {
+  font-size: .88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.cm-value a {
+  color: var(--text-secondary);
+  transition: color var(--duration-s);
+}
+
+.cm-value a:hover { color: var(--accent-bright); }
+
+.cm-note {
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .contact-persons {
+    flex-direction: column;
+  }
+  .cp-divider {
+    width: auto;
+    height: 1px;
+    align-self: stretch;
+  }
+  .contact-person {
+    padding: 28px 24px;
+  }
+  .cp-name { font-size: 1.5rem; }
+
+  .cm-sep { display: none; }
+  .cm-item {
+    flex: 1 1 100%;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 16px 20px;
+  }
+  .cm-item:last-child { border-bottom: none; }
+}

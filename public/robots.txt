@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /dashboard.html
+Disallow: /digitalposter_submit.html
+Disallow: /memeology_submit.html
+Disallow: /projectexpo_submit.html
+Disallow: /theoramvault_submit.html
+Disallow: /videography_submit.html
+Disallow: /webdesign_submit.html
+Disallow: /create_files.py
+Disallow: /google16e66bf7b70ca4e4.html
+
+Sitemap: https://asf25.ndscbd.net/sitemap.xml

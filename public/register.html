@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Notre Dame Annual Science Festival 2025 & 35th GKC - Register</title>
+
+  <!-- SEO -->
+  <meta name="author" content=" Mahmudul Hasan, Md. Mahasin Al Muhi, Foysal Mahmud">
+  <meta name="description" content="Official website of the Notre Dame Annual Science Festival 2025 & 35th GKC organized by Notre Dame Science Club. Explore events, competitions, and registrations.">
+  <meta name="keywords" content="Notre Dame Science Festival, ASF 2025, 35th GKC, Notre Dame College Dhaka, Science Festival Bangladesh">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://asf25.ndscbd.net/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://asf25.ndscbd.net/assets/images/ndsc_fest_logo.png">
+
+  <!-- Open Graph (Facebook, Discord, etc.) -->
+  <meta property="og:title" content="Notre Dame Annual Science Festival 2025 & 35th GKC">
+  <meta property="og:description" content="Join the Notre Dame Annual Science Festival 2025 & 35th GKC. Explore exciting science events and competitions.">
+  <meta property="og:image" content="https://asf25.ndscbd.net/assets/Elements/fest_title.png">
+  <meta property="og:url" content="https://asf25.ndscbd.net/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Notre Dame Annual Science Festival 2025 & 35th GKC">
+  <meta name="twitter:description" content="Official website of Notre Dame Annual Science Festival 2025.">
+  <meta name="twitter:image" content="https://asf25.ndscbd.net/assets/Elements/fest_title.png">
+
+  <!-- Google structured data for logo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Notre Dame Science Club",
+    "url": "https://asf25.ndscbd.net",
+    "logo": "https://asf25.ndscbd.net/assets/images/logo_d_a.png"
+  }
+  </script>
+
+
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a class="nav__logo-group" href="index.html" aria-label="NDSC Fest Home">
+        <div class="nav__logo-icon" aria-hidden="true">
+          <img src="./assets/images/logo_d_a.png" alt="NDSC Fest Logo" width="36" height="36">
+        </div>
+        <div class="nav__logo">
+          <span class="nav__logo-main">Notre Dame Annual Science Festival</span>
+          <span class="nav__logo-sub">2025 &amp; 35th GKC</span>
+        </div>
+      </a>
+      <div class="nav__divider" aria-hidden="true"><span class="nav__divider__line"></span></div>
+      <div class="nav__spacer"></div>
+      <div class="nav__center">
+        <ul class="nav__links" role="list">
+          <li><a class="nav__link" href="index.html"    data-page="index">Home</a></li>
+          <li><a class="nav__link" href="segments.html" data-page="segments">Segments</a></li>
+          <!-- <li><a class="nav__link" href="events.html"   data-page="events">Events</a></li> -->
+          <li><a class="nav__link" href="about.html"    data-page="about">About</a></li>
+          <li><a class="nav__link" href="contact.html"  data-page="contact">Contact</a></li>
+          <li><a class="nav__link" href="developers.html"  data-page="developers">Developers</a></li>
+        </ul>
+        <a class="nav__cta" href="register.html">Register</a>
+      </div>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav__drawer" id="navDrawer" role="dialog" aria-label="Mobile menu">
+    <a class="nav__link" href="index.html"    data-page="index">Home</a>
+    <a class="nav__link" href="segments.html" data-page="segments">Segments</a>
+    <!-- <a class="nav__link" href="events.html"   data-page="events">Events</a> -->
+    <a class="nav__link" href="about.html"    data-page="about">About</a>
+    <a class="nav__link" href="contact.html"  data-page="contact">Contact</a>
+    <a class="nav__link" href="developers.html"  data-page="developers">Developers</a>
+    <a class="nav__drawer-cta" href="register.html">Register</a>
+  </div>
+
+  <main class="page-enter">
+    <section class="inner-page">
+      <div class="container">
+        <div class="auth-wrap" data-reveal="up">
+
+          <div class="auth-header">
+            <span class="eyebrow">Participation</span>
+            <h1 class="section-title">Register / Log In</h1>
+            <p style="font-size:.88rem;color:var(--text-muted);margin-top:14px;line-height:1.7;">
+              Create an account to register for events, track your application status, and receive official communications.
+            </p>
+          </div>
+
+          <!-- Tabs -->
+          <div class="auth-tabs" role="tablist" aria-label="Register or log in">
+            <button class="auth-tab active" data-tab="register" role="tab" aria-selected="true">Register</button>
+            <button class="auth-tab"        data-tab="login"    role="tab" aria-selected="false">Log In</button>
+          </div>
+
+          <!-- Register form -->
+          <div class="auth-form active" data-form="register" role="tabpanel">
+            <div class="form-section">Personal Information</div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-name">Full Name</label>
+              <input class="form-input" id="reg-name" type="text" placeholder="Enter your full name" autocomplete="name" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-email">Email Address</label>
+                <input class="form-input" id="reg-email" type="email" placeholder="your@email.com" autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-phone">Phone Number</label>
+                <input class="form-input" id="reg-phone" type="tel" placeholder="01XXXXXXXXX" autocomplete="tel" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-inst">Institution</label>
+              <input class="form-input" id="reg-inst" type="text" placeholder="Name of your college or school" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-division">Division</label>
+                <select class="form-input form-select" id="reg-division">
+                  <option value="" disabled selected>Select division</option>
+                  <option value="Barisal">Barisal</option>
+                  <option value="Chittagong">Chittagong</option>
+                  <option value="Dhaka">Dhaka</option>
+                  <option value="Khulna">Khulna</option>
+                  <option value="Mymensingh">Mymensingh</option>
+                  <option value="Rajshahi">Rajshahi</option>
+                  <option value="Rangpur">Rangpur</option>
+                  <option value="Sylhet">Sylhet</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-blood">Blood Group</label>
+                <select class="form-input form-select" id="reg-blood">
+                  <option value="" disabled selected>Select blood group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A−</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B−</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB−</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O−</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-class">Class</label>
+                <select class="form-input form-select" id="reg-class">
+                  <option value="" disabled selected>Select class</option>
+                  <option value="Class 3">Class 3 [Primary]</option>
+                  <option value="Class 4">Class 4 [Primary]</option>
+                  <option value="Class 5">Class 5 [Primary]</option>
+                  <option value="Class 6">Class 6 [Junior]</option>
+                  <option value="Class 7">Class 7 [Junior]</option>
+                  <option value="Class 8">Class 8 [Junior]</option>
+                  <option value="Class 9">Class 9 [Secondary]</option>
+                  <option value="Class 10">Class 10 [Secondary]</option>
+                  <option value="SSC">SSC [Secondary]</option>
+                  <option value="HSC 1st Year">HSC 1st Year [Higher Secondary]</option>
+                  <option value="HSC 2nd Year">HSC 2nd Year [Higher Secondary]</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-gender">Gender</label>
+                <select class="form-input form-select" id="reg-gender">
+                  <option value="" disabled selected>Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-address">Address</label>
+              <textarea class="form-input" id="reg-address" rows="3" placeholder="Enter your full address" style="resize:vertical;min-height:80px;"></textarea>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="form-section">Account Setup</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-pass">Password</label>
+                <input class="form-input" id="reg-pass" type="password" placeholder="Min. 8 characters" autocomplete="new-password" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-pass2">Confirm Password</label>
+                <input class="form-input" id="reg-pass2" type="password" placeholder="Re-enter password" autocomplete="new-password" />
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="form-section">Reference <span style="font-weight:400;font-size:.8rem;color:var(--text-muted)">(Optional)</span></div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-ref">CR / DR Reference Code</label>
+              <input class="form-input" id="reg-ref" type="text" placeholder="Enter code if given by your CR or DR" autocomplete="off" />
+              <span style="font-size:.75rem;color:var(--text-muted);margin-top:5px;display:block;">
+                Leave blank if you don't have a reference code.
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-club-ref">Club Reference Code</label>
+              <input class="form-input" id="reg-club-ref" type="text" placeholder="Enter code if given by your club (e.g. 2501)" autocomplete="off" />
+              <span style="font-size:.75rem;color:var(--text-muted);margin-top:5px;display:block;">
+                Leave blank if you don't have a club reference code.
+              </span>
+            </div>
+
+            <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:20px;line-height:1.6;">
+              You can select which events to participate in from your dashboard after creating your account.
+            </p>
+
+            <!-- Step 1: submit to send OTP -->
+            <div id="regStep1">
+              <button class="btn-submit" id="regSendOtpBtn">Verify Email &amp; Continue</button>
+              <p class="form-footnote">
+                Already have an account? <button data-switch-tab="login">Log in here</button>
+              </p>
+            </div>
+
+            <!-- Step 1.5: Email confirmation modal -->
+            <div id="regEmailConfirm" style="display:none;">
+              <div style="background:rgba(109,40,217,.15);border:2px solid rgba(109,40,217,.4);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+                <p style="font-size:.95rem;color:var(--text-light);margin:0 0 12px 0;line-height:1.6;">
+                  <strong style="color:var(--accent-bright);">Please confirm your email address</strong>
+                </p>
+                <p style="font-size:.85rem;color:var(--text-muted);margin:0 0 16px 0;line-height:1.6;">
+                  An OTP will be sent to this address. Make sure it's correct to avoid delays.
+                </p>
+                <div style="text-align:center;padding:14px 18px;background:rgba(0,0,0,.25);border-radius:8px;margin-bottom:16px;">
+                  <span id="confirmEmailDisplay" style="font-size:1.1rem;color:var(--accent-bright);font-weight:600;letter-spacing:.5px;"></span>
+                </div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                  <button class="btn-submit" id="confirmEmailSendOtpBtn" style="flex:1;min-width:140px;">Yes, Send OTP</button>
+                  <button class="btn-submit" id="editEmailBtn" style="flex:1;min-width:140px;background:transparent;border:1px solid var(--text-muted);color:var(--text-light);">Edit Email</button>
+                </div>
+                <!-- Error/success message below buttons -->
+                <div class="form-api-error" style="margin-top:16px;display:none;"></div>
+              </div>
+            </div>
+
+            <!-- Step 2: OTP verification -->
+            <div id="regStep2" style="display:none;">
+              <div style="background:rgba(109,40,217,.08);border:1px solid rgba(109,40,217,.25);border-radius:10px;padding:16px 18px;margin-bottom:20px;">
+                <p style="font-size:.85rem;color:var(--text-muted);margin:0;line-height:1.6;">
+                  A 6-digit OTP has been sent to <strong id="regOtpEmailDisplay" style="color:var(--accent-bright);"></strong>.
+                  Enter it below to verify your email and complete registration.
+                </p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-otp">OTP Code <span style="font-size:.75rem;color:var(--text-muted)">(sent to your email)</span></label>
+                <input class="form-input" id="reg-otp" type="text" placeholder="6-digit code" maxlength="6" autocomplete="one-time-code" style="letter-spacing:6px;font-size:1.3rem;text-align:center;" />
+              </div>
+              <button class="btn-submit" id="regVerifyOtpBtn">Verify &amp; Create Account</button>
+              <p class="form-footnote" style="margin-top:12px;">
+                <button id="regResendOtpBtn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.8rem;text-decoration:underline;">Resend OTP</button>
+                &nbsp;&middot;&nbsp;
+                <button id="regBackBtn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.8rem;text-decoration:underline;"> Edit details</button>
+              </p>
+            </div>
+          </div>
+
+          <!-- Login form -->
+          <div class="auth-form" data-form="login" role="tabpanel">
+            <div class="form-section">Account Login</div>
+
+            <!-- Step 1: email + password -->
+            <div id="loginStep1">
+              <div class="form-group">
+                <label class="form-label" for="log-email">Email Address</label>
+                <input class="form-input" id="log-email" type="email" placeholder="your@email.com" autocomplete="email" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="log-pass">Password</label>
+                <input class="form-input" id="log-pass" type="password" placeholder="Enter your password" autocomplete="current-password" />
+              </div>
+
+              <button class="btn-submit" data-form-submit="login">Log In</button>
+              <p class="form-footnote" style="margin-top:12px;">
+                <button data-switch-tab="register">No account? Register here</button>
+                &nbsp;·&nbsp;
+                <button id="showOtpLoginBtn" style="background:none;border:none;color:var(--accent-bright);cursor:pointer;font-size:.82rem;text-decoration:underline;">Login with OTP</button>
+              </p>
+              <p class="form-footnote" style="margin-top:6px;">
+                <button id="showForgotBtn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.8rem;text-decoration:underline;">Forgot password?</button>
+              </p>
+            </div>
+
+            <!-- Step 2: OTP login -->
+            <div id="loginStepOtp" style="display:none;">
+              <div class="form-group">
+                <label class="form-label" for="otp-email">Email Address</label>
+                <input class="form-input" id="otp-email" type="email" placeholder="your@email.com" autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" />
+              </div>
+
+              <!-- Step 1: Send OTP button -->
+              <div id="loginOtpStep1">
+                <button class="btn-submit" id="sendOtpBtn" style="margin-bottom:16px;">Send OTP</button>
+              </div>
+
+              <!-- Step 1.5: Email confirmation modal -->
+              <div id="loginOtpConfirm" style="display:none;">
+                <div style="background:rgba(109,40,217,.15);border:2px solid rgba(109,40,217,.4);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+                  <p style="font-size:.95rem;color:var(--text-light);margin:0 0 12px 0;line-height:1.6;">
+                    <strong style="color:var(--accent-bright);">Please confirm your email address</strong>
+                  </p>
+                  <p style="font-size:.85rem;color:var(--text-muted);margin:0 0 16px 0;line-height:1.6;">
+                    An OTP will be sent to this address. Make sure it's correct to avoid delays.
+                  </p>
+                  <div style="text-align:center;padding:14px 18px;background:rgba(0,0,0,.25);border-radius:8px;margin-bottom:16px;">
+                    <span id="loginConfirmEmailDisplay" style="font-size:1.1rem;color:var(--accent-bright);font-weight:600;letter-spacing:.5px;"></span>
+                  </div>
+                  <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <button class="btn-submit" id="loginConfirmSendOtpBtn" style="flex:1;min-width:140px;">Yes, Send OTP</button>
+                    <button class="btn-submit" id="loginEditEmailBtn" style="flex:1;min-width:140px;background:transparent;border:1px solid var(--text-muted);color:var(--text-light);">Edit Email</button>
+                  </div>
+                  <!-- Error/success message below buttons -->
+                  <div class="form-api-error" style="margin-top:16px;display:none;"></div>
+                </div>
+              </div>
+
+              <div id="otpCodeGroup" style="display:none;">
+                <div class="form-group">
+                  <label class="form-label" for="otp-code">Enter OTP <span style="font-size:.75rem;color:var(--text-muted)">(sent to your email)</span></label>
+                  <input class="form-input" id="otp-code" type="text" placeholder="6-digit code" maxlength="6" autocomplete="one-time-code" />
+                </div>
+                <button class="btn-submit" id="verifyOtpBtn">Verify & Log In</button>
+              </div>
+              <p class="form-footnote" style="margin-top:12px;">
+                <button id="backToPasswordLogin" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.8rem;text-decoration:underline;">← Back to password login</button>
+              </p>
+            </div>
+
+            <!-- Forgot password -->
+            <div id="loginStepForgot" style="display:none;">
+              <div class="form-section">Reset Password</div>
+              <div class="form-group">
+                <label class="form-label" for="fp-email">Your Email Address</label>
+                <input class="form-input" id="fp-email" type="email" placeholder="your@email.com" autocomplete="email" />
+              </div>
+              <button class="btn-submit" id="sendFpOtpBtn" style="margin-bottom:16px;">Send Reset OTP</button>
+
+              <div id="fpStep2" style="display:none;">
+                <div class="form-group">
+                  <label class="form-label" for="fp-otp">OTP Code</label>
+                  <input class="form-input" id="fp-otp" type="text" placeholder="6-digit code" maxlength="6" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="fp-newpass">New Password</label>
+                  <input class="form-input" id="fp-newpass" type="password" placeholder="Min. 8 characters" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="fp-newpass2">Confirm New Password</label>
+                  <input class="form-input" id="fp-newpass2" type="password" placeholder="Re-enter new password" />
+                </div>
+                <button class="btn-submit" id="resetPassBtn">Reset Password</button>
+              </div>
+              <p class="form-footnote" style="margin-top:12px;">
+                <button id="backFromForgot" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.8rem;text-decoration:underline;">← Back to login</button>
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <p style="opacity: 0.5; margin-top: 20px; font-family: courier; font-size: 14px; text-align: center;"><i>Developed by</i></p>
+  
+  <p style="opacity: 0.8; font-family: courier; font-size: 16px; text-align: center;"><a href="https://www.facebook.com/mahmudulhasan.apk">Mahmudul Hasan</a></p>
+
+  <p style="opacity: 0.5; margin-top: 20px; font-family: courier; font-size: 14px; text-align: center;"><i>Contributed and Edited by</i></p>
+  
+  <p style="font-family: courier; opacity: 0.8; font-size: 16px; text-align: center;"><a href="https://www.facebook.com/mdmahasinalmuhi">Md. Mahasin Al Muhi</a> & <a href="https://foysal1627.github.io/">Foysal Mahmud</a></p>
+  
+
+  <p style="font-family:var(--font-mono);margin:10px;margin-top:50px;font-size:.65rem;font-weight:300;letter-spacing:.06em;color:#fbbf24;text-align:center;padding:0 24px 32px;line-height:1.8;">
+    Server is experiencing high load — if you get an Internal Server Error, try again after an hour. &nbsp;
+    Feel free to <a href="contact.html" style="color:#fbbf24;text-decoration:underline;text-underline-offset:3px;">contact us</a> if the issue persists. &nbsp;
+  </p>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">NDSC <span>Science Fest</span> 2025</div>
+      <div class="footer__meta">Notre Dame Science Club, Dhaka &nbsp;&mdash;&nbsp; All rights reserved &copy; 2026</div>
+      </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>

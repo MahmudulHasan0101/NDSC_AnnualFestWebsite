@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notre Dame Annual Science Festival 2025 &amp; 35th GKC — My Dashboard</title>
+  <link rel="icon" type="image/png" href="./assets/images/ndsc_fest_logo.png">
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <style>
+    /* ── My Submissions card ────────────────────────────────────── */
+    .submission-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .submission-item:last-child { border-bottom: none; }
+
+    .submission-item__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .submission-item__name {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .submission-item__badge {
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(248,113,113,.1);
+      border: 1px solid rgba(248,113,113,.25);
+      color: #fca5a5;
+      white-space: nowrap;
+    }
+    .submission-item__badge--done {
+      background: rgba(52,211,153,.09);
+      border-color: rgba(52,211,153,.28);
+      color: #6ee7b7;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .submission-item__badge--done svg { flex-shrink: 0; }
+
+    .submission-item__hint {
+      font-size: .78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .submission-item__btn {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .submission-item__btn svg { flex-shrink: 0; }
+
+    .submission-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .submission-meta__file {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .submission-meta__date {
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+
+    .submission-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 28px 0;
+      color: var(--text-muted);
+      font-size: .85rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a class="nav__logo-group" href="index.html" aria-label="NDSC Fest Home">
+        <div class="nav__logo-icon" aria-hidden="true">
+          <img src="./assets/images/logo_d_a.png" alt="NDSC Fest Logo" width="36" height="36">
+        </div>
+        <div class="nav__logo">
+          <span class="nav__logo-main">Notre Dame Annual Science Festival</span>
+          <span class="nav__logo-sub">2025 &amp; 35th GKC</span>
+        </div>
+      </a>
+      <div class="nav__divider" aria-hidden="true"><span class="nav__divider__line"></span></div>
+      <div class="nav__spacer"></div>
+      <div class="nav__center">
+        <ul class="nav__links" role="list">
+          <li><a class="nav__link" href="index.html"    data-page="index">Home</a></li>
+          <li><a class="nav__link" href="segments.html" data-page="segments">Segments</a></li>
+          <li><a class="nav__link" href="about.html"    data-page="about">About</a></li>
+          <li><a class="nav__link" href="contact.html"  data-page="contact">Contact</a></li>
+          <li><a class="nav__link" href="developers.html" data-page="developers">Developers</a></li>
+        </ul>
+        <a class="nav__cta" href="register.html">Register</a>
+      </div>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__drawer" id="navDrawer" role="dialog" aria-label="Mobile menu">
+    <a class="nav__link" href="index.html"    data-page="index">Home</a>
+    <a class="nav__link" href="segments.html" data-page="segments">Segments</a>
+    <a class="nav__link" href="about.html"    data-page="about">About</a>
+    <a class="nav__link" href="contact.html"  data-page="contact">Contact</a>
+    <a class="nav__link" href="developers.html" data-page="developers">Developers</a>
+    <a class="nav__drawer-cta" href="register.html">Register</a>
+  </div>
+
+  <main class="page-enter">
+    <section class="inner-page">
+      <div class="container">
+
+        <div id="dashboardLoading" class="dashboard-loading">
+          <div class="loading-spinner" aria-label="Loading dashboard…"></div>
+        </div>
+
+        <div id="dashboardAuthError" class="dashboard-auth-error" style="display:none;">
+          <p>You must be logged in to view your dashboard.</p>
+          <a href="register.html" class="btn btn--primary">Log In / Register</a>
+        </div>
+
+        <div id="dashboardContent" style="display:none;">
+
+          <!-- Profile card -->
+          <div class="dashboard-profile" data-reveal="up">
+            <div class="dashboard-profile__avatar" id="profileAvatar"></div>
+            <div class="dashboard-profile__info">
+              <h1 class="dashboard-profile__name" id="profileName"></h1>
+              <div class="dashboard-profile__meta" id="profileMeta"></div>
+            </div>
+            <button class="btn btn--ghost btn--sm" id="logoutBtnDash">Log Out</button>
+          </div>
+
+          <div class="dashboard-grid">
+
+            <!-- Left: user details + QR -->
+            <div class="dashboard-sidebar">
+              <div class="dashboard-card" data-reveal="up" data-delay="1">
+                <div class="dashboard-card__header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                  <h2 class="dashboard-card__title" style="margin-bottom:0;">My Profile</h2>
+                  <button class="btn btn--ghost btn--sm" id="editProfileBtn" style="font-size:.75rem;">Edit Info</button>
+                </div>
+                <div class="profile-details" id="profileDetails"></div>
+              </div>
+
+              <!-- Edit Profile Form (hidden by default) -->
+              <div class="dashboard-card" id="editProfileCard" style="display:none;" data-reveal="up">
+                <div class="dashboard-card__header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                  <h2 class="dashboard-card__title" style="margin-bottom:0;">Edit Information</h2>
+                  <button class="btn btn--ghost btn--sm" id="cancelEditBtn" style="font-size:.75rem;">Cancel</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                  <div>
+                    <label class="profile-detail__label" style="display:block;margin-bottom:4px;font-size:.75rem;">Full Name</label>
+                    <input class="form-input" id="edit-name" type="text" placeholder="Full Name" style="width:100%;box-sizing:border-box;" />
+                  </div>
+                  <div>
+                    <label class="profile-detail__label" style="display:block;margin-bottom:4px;font-size:.75rem;">Phone</label>
+                    <input class="form-input" id="edit-phone" type="tel" placeholder="01XXXXXXXXX" style="width:100%;box-sizing:border-box;" />
+                  </div>
+                  <div>
+                    <label class="profile-detail__label" style="display:block;margin-bottom:4px;font-size:.75rem;">Institution</label>
+                    <input class="form-input" id="edit-institution" type="text" placeholder="Institution" style="width:100%;box-sizing:border-box;" />
+                  </div>
+                  <div>
+                    <label class="profile-detail__label" style="display:block;margin-bottom:4px;font-size:.75rem;">Division</label>
+                    <select class="form-input form-select" id="edit-division" style="width:100%;box-sizing:border-box;">
+                      <option value="">Select division</option>
+                      <option>Barisal</option><option>Chittagong</option><option>Dhaka</option>
+                      <option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option>
+                      <option>Rangpur</option><option>Sylhet</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="profile-detail__label" style="display:block;margin-bottom:4px;font-size:.75rem;">Address</label>
+                    <textarea class="form-input" id="edit-address" rows="2" placeholder="Your address" style="width:100%;box-sizing:border-box;resize:vertical;"></textarea>
+                  </div>
+                  <div style="border-top:1px solid var(--border-subtle);padding-top:14px;">
+                    <p style="font-size:.75rem;color:var(--text-muted);margin-bottom:10px;">Change Password (optional)</p>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                      <input class="form-input" id="edit-current-pass" type="password" placeholder="Current password" style="width:100%;box-sizing:border-box;" />
+                      <input class="form-input" id="edit-new-pass" type="password" placeholder="New password (min. 8 chars)" style="width:100%;box-sizing:border-box;" />
+                      <input class="form-input" id="edit-new-pass2" type="password" placeholder="Confirm new password" style="width:100%;box-sizing:border-box;" />
+                    </div>
+                  </div>
+                  <div id="editProfileMsg" style="display:none;padding:10px 14px;border-radius:8px;font-size:.82rem;line-height:1.5;"></div>
+                  <button class="btn btn--primary btn--sm" id="saveProfileBtn">Save Changes</button>
+                </div>
+              </div>
+
+              <div class="dashboard-card qr-card" data-reveal="up" data-delay="2">
+                <h2 class="dashboard-card__title">My Pass</h2>
+                <div class="qr-container">
+                  <div id="qrCanvas"></div>
+                  <div class="qr-label" id="qrLabel">Your event pass</div>
+                </div>
+                <button class="btn btn--primary btn--sm qr-download-btn" id="downloadQrBtn">
+                  Download Pass (PDF)
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: notifications + enrollments + submissions -->
+            <div class="dashboard-main-col">
+
+              <div class="dashboard-card notif-card" data-reveal="up" data-delay="2" id="notifCard">
+                <div class="dashboard-card__header">
+                  <h2 class="dashboard-card__title">
+                    Notifications
+                    <span class="notif-badge" id="notifBadge" style="display:none;"></span>
+                  </h2>
+                  <button class="btn btn--ghost btn--sm" id="notifToggleBtn">Hide</button>
+                </div>
+                <div id="notifList" class="notif-list"></div>
+              </div>
+
+              <!-- My Enrollments -->
+              <div class="dashboard-card dashboard-card--wide" data-reveal="up" data-delay="3">
+                <div class="dashboard-card__header">
+                  <h2 class="dashboard-card__title">My Enrollments</h2>
+                  <button class="btn btn--sm btn--primary" id="enrollBtn">+ Enroll in Competition</button>
+                </div>
+                <div id="enrolledBox" class="enrolled-box"></div>
+              </div>
+
+              <!-- My Submissions (hidden by JS if user has no submittable segments) -->
+              <div class="dashboard-card dashboard-card--wide" data-reveal="up" data-delay="4" id="submissionsCard">
+                <div class="dashboard-card__header">
+                  <h2 class="dashboard-card__title">My Submissions</h2>
+                  <!-- small eyebrow label -->
+                  <span style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);">Online only</span>
+                </div>
+                <div id="submissionsBox"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Enrollment Modal ──────────────────────────────────────── -->
+  <div id="enrollModal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="modalTitle">Enroll in Competitions</h2>
+        <button class="modal__close" id="modalCloseBtn" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal__disclaimer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Select a competition below. You will be taken to its registration page. <strong>Enrollments are permanent</strong> — choose carefully.</span>
+      </div>
+
+      <div class="modal__body" id="modalBody"></div>
+
+      <div class="modal__footer">
+        <div class="modal__actions">
+          <button class="btn btn--ghost btn--sm" id="modalCancelBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="opacity: 0.5; margin-top: 20px; font-family: courier; font-size: 14px; text-align: center;"><i>Developed by</i></p>
+  <p style="opacity: 0.8; font-family: courier; font-size: 16px; text-align: center;"><a href="https://www.facebook.com/mahmudulhasan.apk">Mahmudul Hasan [Lead]</a></p>
+  <p style="font-family: courier; opacity: 0.8; font-size: 16px; text-align: center;"><a href="https://www.facebook.com/mdmahasinalmuhi">Md. Mahasin Al Muhi</a> & <a href="https://foysal1627.github.io/">Foysal Mahmud</a></p>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__logo">NDSC <span>Science Fest</span> 2025 & <span>35th GKC</span></div>
+      <div class="footer__meta">Notre Dame Science Club, Dhaka &nbsp;&mdash;&nbsp; All rights reserved &copy; 2026</div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
