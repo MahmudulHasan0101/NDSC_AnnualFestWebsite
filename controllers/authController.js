@@ -208,11 +208,18 @@ async function sendRegistrationOtp(req, res, next) {
 
     const otp = generateOtp();
     await db.createOtp(email, otp, 'registration', otpExpiry());
-    sendOtpEmail(email, 'there', otp, 'registration').catch(e =>
-      console.error('[Registration OTP email error]', e)
-    );
 
-    return success(res, {}, 'OTP sent to your email. It is valid for 10 minutes.');
+    // Send email with error handling
+    try {
+      await sendOtpEmail(email, 'there', otp, 'registration');
+      return success(res, {}, 'OTP sent to your email. It is valid for 10 minutes.');
+    } catch (emailErr) {
+      // Email failed - log the error and return a user-friendly message
+      console.error('[sendRegistrationOtp] Email delivery failed:', emailErr.message);
+      // Clean up the OTP record since email wasn't sent
+      await db.deleteOtp(email, otp, 'registration').catch(() => {});
+      return error(res, 'Failed to send OTP email. Please try again in a moment or contact support if the issue persists.', 503);
+    }
   } catch (err) { next(err); }
 }
 
@@ -450,9 +457,17 @@ async function sendLoginOtp(req, res, next) {
 
     const otp = generateOtp();
     await db.createOtp(email, otp, 'login', otpExpiry());
-    sendOtpEmail(email, user.full_name, otp, 'login').catch(e => console.error('[OTP email error]', e));
 
-    return success(res, {}, 'OTP sent to your email.');
+    // Send email with error handling
+    try {
+      await sendOtpEmail(email, user.full_name, otp, 'login');
+      return success(res, {}, 'OTP sent to your email.');
+    } catch (emailErr) {
+      // Email failed - log the error and return a user-friendly message
+      console.error('[sendLoginOtp] Email delivery failed:', emailErr.message);
+      // Don't delete the OTP from DB - let user retry
+      return error(res, 'Failed to send OTP email. Please try again in a moment or contact support if the issue persists.', 503);
+    }
   } catch (err) { next(err); }
 }
 
@@ -495,9 +510,17 @@ async function forgotPassword(req, res, next) {
 
     const otp = generateOtp();
     await db.createOtp(email, otp, 'forgot_password', otpExpiry());
-    sendOtpEmail(email, user.full_name, otp, 'forgot_password').catch(e => console.error('[Forgot PW email error]', e));
 
-    return success(res, {}, 'If an account exists, an OTP has been sent.');
+    // Send email with error handling
+    try {
+      await sendOtpEmail(email, user.full_name, otp, 'forgot_password');
+      return success(res, {}, 'If an account exists, an OTP has been sent.');
+    } catch (emailErr) {
+      console.error('[forgotPassword] Email delivery failed:', emailErr.message);
+      // Clean up OTP record
+      await db.deleteOtp(email, otp, 'forgot_password').catch(() => {});
+      return error(res, 'Failed to send reset OTP. Please try again or contact support.', 503);
+    }
   } catch (err) { next(err); }
 }
 

@@ -219,6 +219,13 @@ async function verifyOtp(email, otpCode, purpose) {
   return true;
 }
 
+async function deleteOtp(email, otpCode, purpose) {
+  await pool.execute(
+    `DELETE FROM otp_tokens WHERE email = ? AND otp_code = ? AND purpose = ? AND used = 0`,
+    [email.toLowerCase(), otpCode, purpose]
+  );
+}
+
 /* ── User update ───────────────────────────────────────────────────────────── */
 
 async function updateUser(id, fields) {
@@ -286,6 +293,7 @@ module.exports = {
   getAllUserSegmentRegistrations,
   createOtp,
   verifyOtp,
+  deleteOtp,
   updateUser,
   updateUserPasswordByEmail,
   recordDevVisit,

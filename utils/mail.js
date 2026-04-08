@@ -8,10 +8,11 @@ class Mail {
 
     if (useGmail) {
       // Use Gmail SMTP via nodemailer
+      // Using port 465 with SSL (Render blocks port 587)
       this.transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        port: 465,
+        secure: true, // true for 465
         auth: {
           user: isOtp
             ? process.env.GMAIL_USER_OTP
@@ -64,25 +65,44 @@ class Mail {
   async send({ to, toName, subject, body }) {
     if (this.isGmail) {
       // Send via Gmail SMTP
-      const info = await this.transporter.sendMail({
-        from: `"${this.from.name}" <${this.from.email}>`,
-        to: to,
-        subject: subject,
-        html: body,
-      });
-      console.log('Email sent via Gmail, messageId:', info.messageId);
-      return { messageId: info.messageId };
+      try {
+        const info = await this.transporter.sendMail({
+          from: `"${this.from.name}" <${this.from.email}>`,
+          to: to,
+          subject: subject,
+          html: body,
+        });
+        console.log('Email sent via Gmail, messageId:', info.messageId);
+        return { messageId: info.messageId };
+      } catch (err) {
+        console.error('[Gmail SMTP Error]', {
+          code: err.code,
+          command: err.command,
+          message: err.message,
+          responseCode: err.responseCode,
+        });
+        throw err;
+      }
     } else {
       // Send via Brevo API
-      const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-      sendSmtpEmail.sender = this.from;
-      sendSmtpEmail.to = [{ email: to, name: toName || to }];
-      sendSmtpEmail.subject = subject;
-      sendSmtpEmail.htmlContent = body;
+      try {
+        const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+        sendSmtpEmail.sender = this.from;
+        sendSmtpEmail.to = [{ email: to, name: toName || to }];
+        sendSmtpEmail.subject = subject;
+        sendSmtpEmail.htmlContent = body;
 
-      const data = await this.apiInstance.sendTransacEmail(sendSmtpEmail);
-      console.log('Email sent via Brevo, messageId:', data.messageId);
-      return data;
+        const data = await this.apiInstance.sendTransacEmail(sendSmtpEmail);
+        console.log('Email sent via Brevo, messageId:', data.messageId);
+        return data;
+      } catch (err) {
+        console.error('[Brevo API Error]', {
+          status: err.code,
+          message: err.message,
+          response: err.response?.body,
+        });
+        throw err;
+      }
     }
   }
 }
