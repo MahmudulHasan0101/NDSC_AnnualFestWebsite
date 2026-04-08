@@ -102,7 +102,7 @@
           'A 70 Years Anniversary Special Segment of the Notre Dame Annual Science Festival 2025.<br><br>\
           This event will challenge participants with intriguing puzzles, paradoxes, and logical problems designed to test creativity, critical thinking, and problem-solving skills.<br><br>\
           Registration Process:<br>\
-          Send BDT 100 via bKash (Send Money) to 01511550048 and complete the registration on this portal using your payment details.<br><br>\
+          Send BDT 100 via bKash (Send Money) to 01875027806 and complete the registration on this portal using your payment details.<br><br>\
           Challenge your mind and be part of this unique special segment!',
           event: 'Conundrum Paradox', format: 'solo', mode: 'offline', paid: true, fee: '100tk' },
       ],

@@ -56,10 +56,26 @@
     return null;
   }
 
+  /* ── Config: OTP on registration ───────────────────────────── */
+  let OTP_REQUIRED_ON_REGISTRATION = true;
+
+  async function fetchConfig() {
+    try {
+      const res = await fetch('/api/config');
+      if (res.ok) {
+        const data = await res.json();
+        OTP_REQUIRED_ON_REGISTRATION = data.USER_OPT_ON_REGISTRATION === true;
+      }
+    } catch (e) {
+      console.warn('[register.js] Could not fetch config, defaulting to OTP required');
+    }
+  }
+
   /* ================================================================
      DOM-READY
   ================================================================= */
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', async function () {
+    await fetchConfig();
     const tabs  = document.querySelectorAll('.auth-tab[data-tab]');
     const forms = document.querySelectorAll('.auth-form[data-form]');
 
@@ -221,17 +237,51 @@
       };
     }
 
-    /* Step 1 – show email confirmation modal */
+    /* Step 1 – show email confirmation modal OR direct register if OTP disabled */
     function doSendOtp() {
       const payload = buildAndValidatePayload();
       if (!payload) return;
       _regPayload = payload;
+
+      // If OTP is disabled, register directly
+      if (!OTP_REQUIRED_ON_REGISTRATION) {
+        doDirectRegister(payload);
+        return;
+      }
 
       // Show confirmation modal with the email
       regStep1.style.display = 'none';
       regEmailConfirm.style.display = 'block';
       document.getElementById('confirmEmailDisplay').textContent = payload.email;
       clearFormError(formEl);
+    }
+
+    /* Direct registration (no OTP) */
+    async function doDirectRegister(payload) {
+      const btn = document.getElementById('regSendOtpBtn');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Creating account…';
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          window.location.href = '/dashboard.html';
+        } else {
+          showFormError(formEl, data.message || 'Registration failed. Please try again.');
+          btn.disabled = false;
+          btn.textContent = originalText;
+        }
+      } catch (err) {
+        showFormError(formEl, 'Network error. Please check your connection and try again.');
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
     }
 
     /* Step 1.5 – user confirmed, now send OTP */
@@ -346,7 +396,11 @@
       }
     }
 
-    if (sendOtpBtn) sendOtpBtn.addEventListener('click', doSendOtp);
+    // Update button text based on OTP setting
+    if (sendOtpBtn) {
+      sendOtpBtn.textContent = OTP_REQUIRED_ON_REGISTRATION ? 'Verify Email & Continue' : 'Create Account';
+      sendOtpBtn.addEventListener('click', doSendOtp);
+    }
     if (confirmEmailSendOtpBtn) confirmEmailSendOtpBtn.addEventListener('click', doConfirmAndSendOtp);
     if (editEmailBtn) editEmailBtn.addEventListener('click', doEditEmail);
     if (verifyBtn)  verifyBtn.addEventListener('click', doVerifyAndRegister);

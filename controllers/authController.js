@@ -18,6 +18,7 @@ const { success, error }         = require('../utils/response');
 const { AUTH_COOKIE, AUTH_COOKIE_OPTIONS, CLEAR_COOKIE_OPTIONS } = require('../config/cookies');
 
 const BCRYPT_ROUNDS = 12;
+const USER_OPT_ON_REGISTRATION = process.env.USER_OPT_ON_REGISTRATION === 'true';
 
 /* ── Validation helpers ────────────────────────────────────────────────────── */
 
@@ -263,13 +264,15 @@ async function register(req, res, next) {
   try {
     const body = req.body;
 
-    // 1. Confirm that email was OTP-verified before this request
-    const emailToCheck = body.email?.toLowerCase().trim();
-    const emailVerified = await db.verifyOtp(emailToCheck, 'VERIFIED', 'registration_verified');
-    if (!emailVerified) {
-      return error(res, 'Email address has not been verified. Please verify your email with the OTP before registering.', 403, {
-        errors: ['Email not verified.'],
-      });
+    // 1. Confirm that email was OTP-verified before this request (if OTP is enabled)
+    if (USER_OPT_ON_REGISTRATION) {
+      const emailToCheck = body.email?.toLowerCase().trim();
+      const emailVerified = await db.verifyOtp(emailToCheck, 'VERIFIED', 'registration_verified');
+      if (!emailVerified) {
+        return error(res, 'Email address has not been verified. Please verify your email with the OTP before registering.', 403, {
+          errors: ['Email not verified.'],
+        });
+      }
     }
 
     // 2. Input validation
@@ -306,20 +309,30 @@ async function register(req, res, next) {
     const password_hash = await bcrypt.hash(body.password, BCRYPT_ROUNDS);
 
     // 5. Persist user  (phone is normalised to bare 01XXXXXXXXX format)
-    const user = await db.createUser({
-      full_name:      body.full_name.trim(),
-      email:          body.email.toLowerCase().trim(),
-      phone:          normalizeBdPhone(body.phone),
-      institution:    body.institution.trim(),
-      division:       body.division,
-      student_class:  body.student_class,
-      address:        body.address.trim(),
-      blood_group:    body.blood_group,
-      gender:         body.gender,
-      password_hash,
-      cr_dr_ref_code: refCode,
-      club_ref_code:  clubRefCode,
-    });
+    let user;
+    try {
+      user = await db.createUser({
+        full_name:      body.full_name.trim(),
+        email:          body.email.toLowerCase().trim(),
+        phone:          normalizeBdPhone(body.phone),
+        institution:    body.institution.trim(),
+        division:       body.division,
+        student_class:  body.student_class,
+        address:        body.address.trim(),
+        blood_group:    body.blood_group,
+        gender:         body.gender,
+        password_hash,
+        cr_dr_ref_code: refCode,
+        club_ref_code:  clubRefCode,
+      });
+    } catch (dbErr) {
+      if (dbErr.code === 'ER_DUP_ENTRY' && dbErr.sqlMessage?.includes('email')) {
+        return error(res, 'This email is already registered. Please log in instead or use a different email.', 409, {
+          errors: ['Email already registered.'],
+        });
+      }
+      throw dbErr;
+    }
 
     // 6. Increment CR/DR contribution (non-blocking)
     if (crDrRow) {

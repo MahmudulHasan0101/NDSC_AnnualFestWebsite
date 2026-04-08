@@ -60,6 +60,13 @@ app.get('/api/health', (_req, res) => {
   res.json({ ok: true, timestamp: new Date().toISOString() });
 });
 
+/* ── Config endpoint (public) ───────────────────────────────────────────────── */
+app.get('/api/config', (_req, res) => {
+  res.json({
+    USER_OPT_ON_REGISTRATION: process.env.USER_OPT_ON_REGISTRATION === 'true',
+  });
+});
+
 /* ── SPA fallback ───────────────────────────────────────────────────────────── */
 app.get('/{*path}', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
