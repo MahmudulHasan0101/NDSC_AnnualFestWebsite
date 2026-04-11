@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  const DEADLINE = new Date('2026-04-08T23:59:59');
+  const DEADLINE = new Date('2026-04-11T23:59:59');
 
   function pad(n) { return String(n).padStart(2, '0'); }
 
