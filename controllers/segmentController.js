@@ -23,7 +23,7 @@ const SEGMENT_MAP = {
   projectexpo: {
     label: 'Project Expo',
     register: (u, n, e, b) =>
-      sq.registerProjectExpo(u, n, e, b.hall, b.projectName, b.category, b.driveLink, b.partnerEmail || null),
+      sq.registerProjectExpo(u, n, e, b.hall, b.projectName, b.category, b.partnerEmail || null),
     getByUser: sq.getProjectExpoReg,
     validate(b) {
       if (!b.hall)                return 'Hall selection is required.';
