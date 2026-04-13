@@ -332,6 +332,72 @@
   font: inherit;
 }
 
+/* ── Registration Closed Overlay ─────────────────────────────── */
+.registration-closed-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 24px;
+}
+
+.registration-closed-content {
+  max-width: 480px;
+  text-align: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-m);
+  padding: 48px 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.registration-closed-icon {
+  color: var(--accent);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.registration-closed-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.registration-closed-message {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.registration-closed-link {
+  display: inline-block;
+  padding: 12px 32px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: var(--radius-s);
+  text-decoration: none;
+  transition: all var(--duration-s);
+}
+
+.registration-closed-link:hover {
+  background: var(--accent-bright);
+  box-shadow: 0 0 20px rgba(157, 92, 255, 0.4);
+  transform: translateY(-2px);
+}
+
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 860px) {
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }

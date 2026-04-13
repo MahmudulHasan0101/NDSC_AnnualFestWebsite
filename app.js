@@ -64,6 +64,7 @@ app.get('/api/health', (_req, res) => {
 app.get('/api/config', (_req, res) => {
   res.json({
     USER_OPT_ON_REGISTRATION: process.env.USER_OPT_ON_REGISTRATION === 'true',
+    IS_REGISTRATION_CLOSED: process.env.IS_REGISTRATION_CLOSED === 'true',
   });
 });
 

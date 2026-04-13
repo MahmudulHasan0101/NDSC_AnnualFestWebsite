@@ -58,6 +58,7 @@
 
   /* ── Config: OTP on registration ───────────────────────────── */
   let OTP_REQUIRED_ON_REGISTRATION = true;
+  let IS_REGISTRATION_CLOSED = false;
 
   async function fetchConfig() {
     try {
@@ -65,6 +66,7 @@
       if (res.ok) {
         const data = await res.json();
         OTP_REQUIRED_ON_REGISTRATION = data.USER_OPT_ON_REGISTRATION === true;
+        IS_REGISTRATION_CLOSED = data.IS_REGISTRATION_CLOSED === true;
       }
     } catch (e) {
       console.warn('[register.js] Could not fetch config, defaulting to OTP required');
@@ -76,6 +78,16 @@
   ================================================================= */
   document.addEventListener('DOMContentLoaded', async function () {
     await fetchConfig();
+
+    // Show registration closed overlay if enabled
+    if (IS_REGISTRATION_CLOSED) {
+      const overlay = document.getElementById('registrationClosedOverlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.setAttribute('aria-hidden', 'false');
+      }
+    }
+
     const tabs  = document.querySelectorAll('.auth-tab[data-tab]');
     const forms = document.querySelectorAll('.auth-form[data-form]');
 
